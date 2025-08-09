@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>📚 Fisika Seru: Mengenal Besaran & Dimensi</title>
+
+  <!-- AOS Animations & FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    /* Progress Bar */
+    #progressContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: rgba(0, 0, 0, 0.1);
+      z-index: 10000;
+    }
+
+    #progressBar {
+      height: 5px;
+      background: #0288d1;
+      width: 0%;
+      transition: width 0.25s ease-out;
+    }
+
+    /* Sticky header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      text-align: center;
+      padding: 20px;
+      background-color: #0288d1;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8em;
+    }
+
+    #themeToggle {
+      margin-top: 10px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1em;
+      background-color: #ffffffaa;
+      color: #0288d1;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    #themeToggle:hover {
+      background-color: #ffffff;
+    }
+
+    /* Body & layout */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #e0f7fa, #fff3e0);
+      margin: 0;
+      padding: 0;
+      color: #333;
+      transition: background-color 0.3s, color 0.3s;
+      padding-top: 5px;
+      /* for progress bar */
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .intro {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Highlight animation for keywords */
+    .highlight-word {
+      color: #1d4e89;
+      font-weight: 700;
+      position: relative;
+      cursor: help;
+      border-bottom: 2px dashed #1d4e89;
+      transition: color 0.3s;
+    }
+
+    .highlight-word:hover,
+    .highlight-word:focus {
+      color: #01579b;
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: #0288d1;
+      color: #fff;
+      text-align: left;
+      border-radius: 8px;
+      padding: 8px;
+      position: absolute;
+      z-index: 10000;
+      bottom: 120%;
+      left: 50%;
+      margin-left: -100px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.9em;
+    }
+
+    .tooltip:hover .tooltiptext,
+    .tooltip:focus-within .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #0288d1;
+      color: white;
+    }
+
+    caption {
+      font-weight: bold;
+      padding: 10px;
+      font-size: 1.2em;
+      color: #01579b;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      font-size: 0.9em;
+      color: #555;
+      padding: 15px;
+      background: #f5f5f5;
+      border-top: 1px solid #ccc;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Quiz Section */
+    #quiz {
+      background: #e3f2fd;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      max-width: 900px;
+      margin: 20px auto;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    #quiz h2 {
+      color: #01579b;
+    }
+
+    #quiz form ol {
+      padding-left: 20px;
+    }
+
+    #quiz label {
+      display: block;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+
+    #quiz button {
+      background-color: #0288d1;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+      width: 100%;
+      max-width: 200px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      transition: background-color 0.3s;
+    }
+
+    #quiz button:hover {
+      background-color: #0277bd;
+    }
+
+    #quizResult {
+      margin-top: 15px;
+      font-weight: bold;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Share Buttons */
+    .share-buttons {
+      max-width: 900px;
+      margin: 20px auto 40px;
+      text-align: center;
+    }
+
+    .share-buttons h3 {
+      color: #01579b;
+      margin-bottom: 15px;
+    }
+
+    .share-buttons button {
+      background-color: #0288d1;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      margin: 5px 8px 10px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.1em;
+      transition: background-color 0.3s ease;
+      min-width: 140px;
+    }
+
+    .share-buttons button:hover {
+      background-color: #0277bd;
+    }
+
+    /* Back to Top Button */
+    #backToTopBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #0288d1;
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 24px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+      display: none;
+      /* Hidden by default */
+      z-index: 1000;
+      transition: background-color 0.3s ease;
+    }
+
+    #backToTopBtn:hover {
+      background-color: #0277bd;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.4em;
+        padding: 10px;
+      }
+
+      main,
+      #quiz,
+      .share-buttons {
+        padding: 10px;
+        margin: 10px;
+      }
+
+      table,
+      th,
+      td {
+        font-size: 14px;
+      }
+
+      #quiz button {
+        max-width: 100%;
+      }
+
+      .share-buttons button {
+        min-width: 100%;
+        font-size: 1em;
+      }
+
+      #backToTopBtn {
+        bottom: 20px;
+        right: 20px;
+        font-size: 20px;
+        padding: 10px 14px;
+      }
+    }
+
+    /* Dark mode styles */
+    body.dark-mode {
+      background: #121212;
+      color: #ddd;
+    }
+
+    body.dark-mode header {
+      background-color: #1e88e5;
+      color: #eee;
+    }
+
+    body.dark-mode #themeToggle {
+      background-color: #1565c0;
+      color: #fff;
+    }
+
+    body.dark-mode #themeToggle:hover {
+      background-color: #1e88e5;
+    }
+
+    body.dark-mode .intro {
+      background: #222;
+      color: #ddd;
+    }
+
+    body.dark-mode table {
+      background: #222;
+      color: #ddd;
+      box-shadow: none;
+    }
+
+    body.dark-mode th {
+      background-color: #1565c0;
+    }
+
+    body.dark-mode td {
+      border-color: #444;
+    }
+
+    body.dark-mode #quiz {
+      background: #1e88e5;
+      color: #fff;
+    }
+
+    body.dark-mode footer {
+      background: #222;
+      color: #ccc;
+      border-top: 1px solid #444;
+    }
+
+    body.dark-mode .share-buttons h3 {
+      color: #bbdefb;
+    }
+
+    body.dark-mode .share-buttons button {
+      background-color: #1565c0;
+      box-shadow: none;
+    }
+
+    body.dark-mode .share-buttons button:hover {
+      background-color: #1e88e5;
+    }
+
+    body.dark-mode #backToTopBtn {
+      background-color: #1565c0;
+    }
+
+    body.dark-mode #backToTopBtn:hover {
+      background-color: #1e88e5;
+    }
+
+    /* Tooltip mobile support */
+    @media (hover: none) {
+      .tooltip .tooltiptext {
+        display: none;
+      }
+
+      .tooltip:focus-within .tooltiptext {
+        display: block;
+      }
+    }
+
+    /* Video Section */
+    #videoSection {
+      max-width: 900px;
+      margin: 30px auto;
+      text-align: center;
+    }
+
+    #videoSection iframe {
+      width: 100%;
+      height: 360px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* FAQ Accordion */
+    #faq {
+      max-width: 900px;
+      margin: 30px auto;
+    }
+
+    #faq h2 {
+      text-align: center;
+      color: #01579b;
+      margin-bottom: 20px;
+    }
+
+    .accordion {
+      background-color: #0288d1;
+      color: white;
+      cursor: pointer;
+      padding: 14px 20px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 1.1em;
+      transition: background-color 0.3s ease;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .accordion:hover,
+    .accordion.active {
+      background-color: #0277bd;
+    }
+
+    .panel {
+      padding: 0 20px 20px 20px;
+      background-color: #e3f2fd;
+      display: none;
+      overflow: hidden;
+      border-radius: 0 0 8px 8px;
+      margin-bottom: 12px;
+      color: #333;
+    }
+
+    body.dark-mode .accordion {
+      background-color: #1565c0;
+      color: #ddd;
+    }
+
+    body.dark-mode .accordion:hover,
+    body.dark-mode .accordion.active {
+      background-color: #1e88e5;
+    }
+
+    body.dark-mode .panel {
+      background-color: #1e88e5;
+      color: #eee;
+    }
+
+    /* Table Filter */
+    #filterInput {
+      max-width: 900px;
+      margin: 0 auto 20px auto;
+      display: block;
+      padding: 10px 15px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    body.dark-mode #filterInput {
+      background-color: #222;
+      border-color: #444;
+      color: #ddd;
+    }
+
+    /* Reading Mode */
+    #readingModeToggle {
+      position: fixed;
+      bottom: 80px;
+      right: 30px;
+      background-color: #0288d1;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 24px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+      z-index: 1001;
+      transition: background-color 0.3s ease;
+    }
+
+    #readingModeToggle:hover {
+      background-color: #0277bd;
+    }
+
+    body.reading-mode main,
+    body.reading-mode #quiz,
+    body.reading-mode .share-buttons,
+    body.reading-mode #videoSection,
+    body.reading-mode #faq {
+      filter: none;
+      opacity: 1;
+    }
+
+    body.reading-mode header,
+    body.reading-mode footer,
+    body.reading-mode #backToTopBtn,
+    body.reading-mode #progressContainer,
+    body.reading-mode #themeToggle,
+    body.reading-mode #readingModeToggle {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    body.reading-mode {
+      background: #fff8e1 !important;
+      color: #222 !important;
+    }
+
+    body.reading-mode main,
+    body.reading-mode #quiz,
+    body.reading-mode .share-buttons,
+    body.reading-mode #videoSection,
+    body.reading-mode #faq {
+      font-size: 1.2em;
+    }
+
+    /* Quiz progress bar */
+    #quizProgressBarContainer {
+      width: 100%;
+      background-color: #ddd;
+      border-radius: 8px;
+      margin: 10px 0 20px;
+      height: 15px;
+      overflow: hidden;
+    }
+
+    #quizProgressBar {
+      height: 15px;
+      background-color: #0288d1;
+      width: 0%;
+      transition: width 0.3s ease;
+      border-radius: 8px;
+    }
+
+    body.dark-mode #quizProgressBar {
+      background-color: #1e88e5;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Progress Bar -->
+  <div id="progressContainer">
+    <div id="progressBar"></div>
+  </div>
+
+  <!-- Musik background dengan kontrol -->
+  <audio controls autoplay loop style="position: fixed; bottom: 10px; left: 10px; width: 200px; z-index: 9999; background: rgba(255,255,255,0.8); border-radius: 8px; box-shadow: 0 0 6px rgba(0,0,0,0.3);">
+    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg" />
+    Browser Anda tidak mendukung elemen audio.
+  </audio>
+
+  <header data-aos="fade-down" data-aos-duration="1000">
+    <h1>📚 Fisika Seru: Mengenal <span class="highlight-word tooltip" tabindex="0">Besaran
+        <span class="tooltiptext">Besaran adalah sesuatu yang dapat diukur dan memiliki nilai.</span>
+      </span> & Dimensi dengan Mudah!</h1>
+    <button id="themeToggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">🌙 Dark Mode</button>
+  </header>
+
+  <main data-aos="fade-up" data-aos-duration="1000">
+    <div class="intro">
+      <p>🎯 <strong>Apa itu <span class="highlight-word tooltip" tabindex="0">Besaran Pokok
+            <span class="tooltiptext">Besaran dasar yang satuannya sudah ditentukan secara internasional.</span>
+          </span> dan <span class="highlight-word tooltip" tabindex="0">Besaran Turunan
+            <span class="tooltiptext">Besaran yang merupakan gabungan dari besaran pokok.</span>
+          </span>?</strong><br />
+        Dalam fisika, <em>besaran</em> adalah sesuatu yang dapat diukur dan memiliki nilai. Besaran dibagi menjadi <strong>besaran pokok</strong> dan <strong>besaran turunan</strong>.</p>
+    </div>
+
+    <!-- Filter untuk tabel -->
+    <input type="text" id="filterInput" placeholder="Cari jenis besaran, nama, satuan, atau dimensi..." aria-label="Cari besaran dalam tabel" />
+
+    <table id="besaranTable" aria-describedby="tableCaption" role="table">
+      <caption id="tableCaption">Tabel Besaran Pokok dan Besaran Turunan</caption>
+      <thead>
+        <tr>
+          <th>Jenis Besaran</th>
+          <th>Nama Besaran</th>
+          <th>Satuan (SI)</th>
+          <th>Dimensi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="7"><strong>Besaran Pokok</strong></td>
+          <td>Panjang</td>
+          <td>Meter (m)</td>
+          <td>L</td>
+        </tr>
+        <tr>
+          <td>Massa</td>
+          <td>Kilogram (kg)</td>
+          <td>M</td>
+        </tr>
+        <tr>
+          <td>Waktu</td>
+          <td>Detik (s)</td>
+          <td>T</td>
+        </tr>
+        <tr>
+          <td>Kuat Arus Listrik</td>
+          <td>Ampere (A)</td>
+          <td>I</td>
+        </tr>
+        <tr>
+          <td>Suhu</td>
+          <td>Kelvin (K)</td>
+          <td>Θ</td>
+        </tr>
+        <tr>
+          <td>Jumlah Zat</td>
+          <td>Mol (mol)</td>
+          <td>N</td>
+        </tr>
+        <tr>
+          <td>Intensitas Cahaya</td>
+          <td>Candela (cd)</td>
+          <td>J</td>
+        </tr>
+        <tr>
+          <td rowspan="6"><strong>Besaran Turunan</strong></td>
+          <td>Luas</td>
+          <td>Meter persegi (m²)</td>
+          <td>L²</td>
+        </tr>
+        <tr>
+          <td>Volume</td>
+          <td>Meter kubik (m³)</td>
+          <td>L³</td>
+        </tr>
+        <tr>
+          <td>Kecepatan</td>
+          <td>Meter per detik (m/s)</td>
+          <td>LT⁻¹</td>
+        </tr>
+        <tr>
+          <td>Percepatan</td>
+          <td>Meter per detik kuadrat (m/s²)</td>
+          <td>LT⁻²</td>
+        </tr>
+        <tr>
+          <td>Gaya</td>
+          <td>Newton (N)</td>
+          <td>MLT⁻²</td>
+        </tr>
+        <tr>
+          <td>Tekanan</td>
+          <td>Pascal (Pa)</td>
+          <td>ML⁻¹T⁻²</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Video pembelajaran -->
+    <section id="videoSection" data-aos="fade-up" data-aos-duration="1200" aria-label="Video Pembelajaran">
+      <h2>Video Pembelajaran</h2>
+      <iframe src="https://www.youtube.com/embed/aBuZklAPeb4" title="Video Pembelajaran Besaran dan Dimensi - @BelajarIPA79" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen aria-describedby="videoDesc"></iframe>
+      <p id="videoDesc" style="font-size: 0.9em; color:#555; margin-top:8px;">Video ini menjelaskan konsep dasar besaran pokok dan turunan.</p>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" data-aos="fade-up" data-aos-duration="1200" aria-label="Kuis Besaran dan Dimensi">
+      <h2>Kuis Singkat</h2>
+      <div id="quizProgressBarContainer" aria-hidden="true">
+        <div id="quizProgressBar"></div>
+      </div>
+      <form id="quizForm" aria-describedby="quizDesc">
+        <ol>
+          <li>
+            <p><strong>1. Satuan waktu yang termasuk besaran pokok adalah?</strong></p>
+            <label><input type="radio" name="q1" value="A" required> Meter (m)</label>
+            <label><input type="radio" name="q1" value="B"> Detik (s)</label>
+            <label><input type="radio" name="q1" value="C"> Kilogram (kg)</label>
+          </li>
+          <li>
+            <p><strong>2. Satuan gaya dalam SI adalah?</strong></p>
+            <label><input type="radio" name="q2" value="A" required> Newton (N)</label>
+            <label><input type="radio" name="q2" value="B"> Pascal (Pa)</label>
+            <label><input type="radio" name="q2" value="C"> Meter kubik (m³)</label>
+          </li>
+          <li>
+            <p><strong>3. Dimensi luas adalah?</strong></p>
+            <label><input type="radio" name="q3" value="A" required> L²</label>
+            <label><input type="radio" name="q3" value="B"> L³</label>
+            <label><input type="radio" name="q3" value="C"> LT⁻¹</label>
+          </li>
+        </ol>
+        <button type="submit" aria-label="Submit jawaban kuis">Submit Jawaban</button>
+      </form>
+      <div id="quizResult" tabindex="0" aria-live="polite" style="margin-top:15px;"></div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" data-aos="fade-up" data-aos-duration="1200" aria-label="Pertanyaan yang Sering Diajukan">
+      <h2>FAQ - Pertanyaan Umum</h2>
+      <button class="accordion" aria-expanded="false" aria-controls="faq1_panel" id="faq1">Apa itu besaran pokok?</button>
+      <div class="panel" id="faq1_panel" role="region" aria-labelledby="faq1">
+        <p>Besaran pokok adalah besaran dasar yang satuannya sudah ditetapkan secara internasional, seperti meter, kilogram, dan detik.</p>
+      </div>
+
+      <button class="accordion" aria-expanded="false" aria-controls="faq2_panel" id="faq2">Apa bedanya besaran pokok dan turunan?</button>
+      <div class="panel" id="faq2_panel" role="region" aria-labelledby="faq2">
+        <p>Besaran pokok adalah dasar, sedangkan besaran turunan adalah gabungan dari besaran pokok, misalnya kecepatan dan gaya.</p>
+      </div>
+
+      <button class="accordion" aria-expanded="false" aria-controls="faq3_panel" id="faq3">Bagaimana satuan Newton dihitung?</button>
+      <div class="panel" id="faq3_panel" role="region" aria-labelledby="faq3">
+        <p>Newton dihitung dari dimensi massa × panjang / waktu kuadrat (MLT⁻²).</p>
+      </div>
+    </section>
+
+    <!-- Share Buttons -->
+    <section class="share-buttons" aria-label="Tombol berbagi ke media sosial">
+      <h3>Bagikan halaman ini ke teman-temanmu!</h3>
+      <button onclick="shareToWhatsApp()" aria-label="Bagikan ke WhatsApp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+      <button onclick="shareToTwitter()" aria-label="Bagikan ke Twitter"><i class="fab fa-twitter"></i> Twitter</button>
+      <button onclick="shareToFacebook()" aria-label="Bagikan ke Facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
+      <button onclick="shareToLinkedIn()" aria-label="Bagikan ke LinkedIn"><i class="fab fa-linkedin-in"></i> LinkedIn</button>
+      <button onclick="shareToTelegram()" aria-label="Bagikan ke Telegram"><i class="fab fa-telegram-plane"></i> Telegram</button>
+      <button onclick="openInstagram()" aria-label="Buka Instagram"><i class="fab fa-instagram"></i> Instagram</button>
+      <button onclick="shareToTikTok()" aria-label="Bagikan ke TikTok">
+        <i class="fab fa-tiktok"></i> TikTok
+      </button>
+
+    </section>
+
+  </main>
+
+  <!-- Back to Top -->
+  <button id="backToTopBtn" aria-label="Kembali ke atas"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- Reading Mode Toggle -->
+  <button id="readingModeToggle" aria-label="Mode baca fokus" title="Mode baca fokus">📖</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <button id="backToTopBtn" title="Kembali ke atas"><i class="fas fa-arrow-up"></i></button>
+
+  <footer data-aos="fade-up" data-aos-duration="1000">
+    Disusun oleh <strong>Anggi Anggraini</strong> – Instagram: <strong>@angginiarggna</strong>
+    <br /><br />
+    <strong>Sumber Video:</strong> <a href="https://www.youtube.com/@BelajarIPA79" target="_blank" rel="noopener noreferrer">BelajarIPA79 (YouTube)</a> <br />
+    <strong>Referensi:</strong>
+    Giancoli, D.C. (2014). <em>Physics: Principles with Applications</em> (7th ed.). Pearson Education.
+    <br />
+
+    <strong>Sumber Musik:</strong>
+    Lagu "Sunny" oleh <a href="https://www.bensound.com" target="_blank" rel="noopener noreferrer">Bensound.com</a> — musik bebas royalti untuk penggunaan online.
+  </footer>
+  <script>
+    // Initialize AOS for animations
+    AOS.init();
+    // Dark Mode Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    const savedTheme = localStorage.getItem('darkMode');
+    if (savedTheme === 'true') body.classList.add('dark-mode');
+
+    function updateThemeButton() {
+      themeToggle.textContent = body.classList.contains('dark-mode') ? '☀️ Light Mode' : '🌙 Dark Mode';
+    }
+    updateThemeButton();
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+      updateThemeButton();
+    });
+    // Quiz Logic
+    const quizForm = document.getElementById('quizForm');
+    const quizResult = document.getElementById('quizResult');
+    const quizProgressBar = document.getElementById('quizProgressBar');
+    const questions = {
+      q1: {
+        correct: 'B',
+        explanation: 'Satuan waktu adalah Detik (s), bukan Meter atau Kilogram.'
+      },
+      q2: {
+        correct: 'A',
+        explanation: 'Newton (N) adalah satuan gaya, bukan tekanan atau volume.'
+      },
+      q3: {
+        correct: 'A',
+        explanation: 'Dimensi luas adalah L², bukan L³ atau LT⁻¹.'
+      }
+    };
+    quizForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let score = 0;
+      let messages = [];
+      const formData = new FormData(quizForm);
+      // Count answered questions for progress
+      let answeredCount = 0;
+      for (const [q, info] of Object.entries(questions)) {
+        const answer = formData.get(q);
+        if (!answer) {
+          messages.push(`Pertanyaan ${q.substring(1)} belum dijawab.`);
+          continue;
+        }
+        answeredCount++;
+        if (answer === info.correct) {
+          score++;
+          messages.push(`Pertanyaan ${q.substring(1)}: Jawaban benar! 🎉`);
+        } else {
+          messages.push(`Pertanyaan ${q.substring(1)}: Jawaban salah. ${info.explanation}`);
+        }
+      }
+      quizProgressBar.style.width = `${(answeredCount / Object.keys(questions).length) * 100}%`;
+      quizResult.innerHTML = `
+      <p>Nilai kamu: <strong>${score} dari ${Object.keys(questions).length}</strong></p>
+      <ul>${messages.map(msg => `<li>${msg}</li>`).join('')}</ul>
+      <p>${score === Object.keys(questions).length ? 'Kerja bagus! Kamu menguasai materi ini.' : 'Jangan menyerah, coba lagi ya!'}</p>
+    `;
+    });
+    // Back to Top Button
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 200) backToTopBtn.style.display = 'block';
+      else backToTopBtn.style.display = 'none';
+    });
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    // Scroll Progress Bar
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      document.getElementById('progressBar').style.width = scrollPercent + '%';
+    });
+    // Share button functions
+    function shareToWhatsApp() {
+      const url = encodeURIComponent(window.location.href);
+      const text = encodeURIComponent("Yuk belajar Fisika Seru! Mengenal Besaran & Dimensi dengan mudah.");
+      window.open(`https://api.whatsapp.com/send?text=${text}%20${url}`, '_blank');
+    }
+
+    function shareToTwitter() {
+      const url = encodeURIComponent(window.location.href);
+      const text = encodeURIComponent("Yuk belajar Fisika Seru! Mengenal Besaran & Dimensi dengan mudah.");
+      window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+    }
+
+    function openInstagram() {
+      // Instagram tidak support share URL langsung, jadi buka profil saja
+      window.open('https://www.instagram.com/', '_blank');
+    }
+
+    function shareToFacebook() {
+      const url = encodeURIComponent(window.location.href);
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+    }
+
+    function shareToLinkedIn() {
+      const url = encodeURIComponent(window.location.href);
+      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+    }
+
+    function shareToTelegram() {
+      const url = encodeURIComponent(window.location.href);
+      const text = encodeURIComponent("Yuk belajar Fisika Seru! Mengenal Besaran & Dimensi dengan mudah.");
+      window.open(`https://t.me/share/url?url=${url}&text=${text}`, '_blank');
+    }
+
+    function shareToTikTok() {
+      const url = encodeURIComponent(window.location.href);
+      // TikTok tidak support share text via URL, hanya share link saja
+      window.open(`https://www.tiktok.com/share?url=${url}`, '_blank');
+    }
+    // FAQ Accordion
+    const acc = document.getElementsByClassName("accordion");
+    Array.from(acc).forEach(button => {
+      button.addEventListener('click', () => {
+        const panel = button.nextElementSibling;
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        button.setAttribute('aria-expanded', !expanded);
+        if (!expanded) {
+          panel.style.display = "block";
+          button.classList.add('active');
+        } else {
+          panel.style.display = "none";
+          button.classList.remove('active');
+        }
+      });
+    });
+    // Filter Tabel
+    const filterInput = document.getElementById('filterInput');
+    filterInput.addEventListener('input', () => {
+      const filter = filterInput.value.toLowerCase();
+      const rows = document.querySelectorAll('#besaranTable tbody tr');
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        if (text.indexOf(filter) > -1) row.style.display = '';
+        else row.style.display = 'none';
+      });
+    });
+    // Reading Mode Toggle
+    const readingToggle = document.getElementById('readingModeToggle');
+    readingToggle.addEventListener('click', () => {
+      if (body.classList.contains('reading-mode')) {
+        body.classList.remove('reading-mode');
+        readingToggle.title = 'Mode baca fokus';
+        readingToggle.textContent = '📖';
+      } else {
+        body.classList.add('reading-mode');
+        readingToggle.title = 'Keluar dari mode baca fokus';
+        readingToggle.textContent = '❌';
+      }
+    });
+  </script>
+
+</body>
+
+</html>
