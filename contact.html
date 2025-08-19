@@ -27,12 +27,29 @@
     
   <h1>Kontak Kami</h1>
   <p>Jika ada pertanyaan, saran, atau kerja sama, silakan hubungi kami melalui form di bawah ini:</p>
-  <form>
-    <input type="text" name="name" placeholder="Nama Anda" required>
-    <input type="email" name="email" placeholder="Email Anda" required>
-    <textarea name="message" placeholder="Pesan Anda" rows="5" required></textarea>
+  
+  <!-- Form yang sudah diperbaiki -->
+  <form onsubmit="kirimWA(); return false;">
+    <input type="text" id="name" name="name" placeholder="Nama Anda" required>
+    <input type="email" id="email" name="email" placeholder="Email Anda" required>
+    <textarea id="message" name="message" placeholder="Pesan Anda" rows="5" required></textarea>
     <button type="submit">Kirim</button>
   </form>
+
   <p><a href="/">⬅ Kembali ke Beranda</a></p>
+
+  <script>
+    function kirimWA() {
+      var nama = document.getElementById("name").value;
+      var email = document.getElementById("email").value;
+      var pesan = document.getElementById("message").value;
+
+      var nomor = "6282296505033"; // Ganti dengan nomor WhatsAppmu
+      var text = "Nama: " + nama + "\nEmail: " + email + "\nPesan: " + pesan;
+
+      var url = "https://wa.me/" + nomor + "?text=" + encodeURIComponent(text);
+      window.open(url, "_blank"); // Membuka WhatsApp di tab baru
+    }
+  </script>
 </body>
 </html>
